@@ -1,30 +1,8 @@
 #include "Parser.h"
 
-#include <iostream>
-
-// 123456789
 // pixel x y r g b
 CommandData Parser::getPixelData(const std::string& command)
 {
-	/*std::stringstream stream;
-	int* elements = new int[5];
-	int counter = 0, reserve;
-
-	while (command[counter] != ' ') counter++;
-
-	for (int i = 0; i < 4; i++)
-	{
-		reserve = ++counter;
-		while (command[counter] != ' ') counter++;
-		stream.str(command.substr(reserve, counter - reserve));
-		stream >> elements[i];
-		stream.clear();
-	}
-
-	reserve = ++counter;
-	stream.str(command.substr(reserve));
-	stream >> elements[4];*/
-
 	int* elements = getData(command, 5);
 
 	CommandData data;
@@ -111,7 +89,6 @@ int* Parser::getData(const std::string& command, int elements)
 
 CommandData Parser::Parse(std::string command)
 {
-	std::string parsedCommand;
 	CommandData data;
 
 	int firstLetter = command[0];
