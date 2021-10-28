@@ -14,3 +14,7 @@ rectangle x y w h r g b    = draw rectangle at x y with width and height and 0-2
 
 pixel     x y r g b        = draw pixel with 0-255 rgb at x y  
 
+U can also use the first letter of the command, examples:  
+
+pixel 50 50 255 124 62  
+p 50 50 255 124 62
