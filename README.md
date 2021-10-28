@@ -4,8 +4,13 @@ Ever thought Paint was too easy? No u haven't? Well i got great news, u using th
 
 Commands:
 
-new       w h              = create new image with width and height
-save      filename         = save image with filename
-circle    x y radius r g b = draw circle at x y with radius and 0-255 rgb
-rectangle x y w h r g b    = draw rectangle at x y with width and height and 0-255 rgb
-pixel     x y r g b        = draw pixel with 0-255 rgb at x y
+new       w h              = create new image with width and height  
+
+save      filename         = save image with filename  
+
+circle    x y radius r g b = draw circle at x y with radius and 0-255 rgb  
+
+rectangle x y w h r g b    = draw rectangle at x y with width and height and 0-255 rgb  
+
+pixel     x y r g b        = draw pixel with 0-255 rgb at x y  
+
