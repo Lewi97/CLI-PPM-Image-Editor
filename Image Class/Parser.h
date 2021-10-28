@@ -10,7 +10,8 @@ enum class CommandID
 	New,
 	Circle,
 	Rectangle,
-	Pixel
+	Pixel,
+	Error
 };
 
 struct CommandData
@@ -28,9 +29,11 @@ private:
 	CommandData getRectangleData(const std::string& command);
 	CommandData getCircleData(const std::string& command);
 	CommandData getPixelData(const std::string& command);
+	CommandData getNewImageData(const std::string& command);
 	int* getData(const std::string& command, int elements);
 public:
 	Parser() {}
+	bool execute(const std::string& command, PPM*& image);
 	CommandData Parse(std::string command);
 };
 

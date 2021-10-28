@@ -8,6 +8,9 @@ PPM::PPM(int width, int height) :
     for (int x = 0; x < width; x++)
         for (int y = 0; y < height; y++)
             colors[x + width * y] = { 255,255,255 };
+
+    std::cout << colors << std::endl;
+    // std::cout << colors[123].r << std::endl;
 }
 
 inline bool PPM::inBounds(int x, int y)

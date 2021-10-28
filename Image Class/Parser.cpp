@@ -63,6 +63,21 @@ CommandData Parser::getRectangleData(const std::string& command)
 	return data;
 }
 
+// new w h
+CommandData Parser::getNewImageData(const std::string& command)
+{
+	int* elements = getData(command, 2);
+
+	CommandData data;
+	data.ID = CommandID::New;
+	data.width = elements[0];
+	data.height = elements[1];
+
+	delete[] elements;
+
+	return data;
+}
+
 int* Parser::getData(const std::string& command, int elements)
 {
 	int* e = new int[elements];
@@ -99,6 +114,7 @@ CommandData Parser::Parse(std::string command)
 		data = getSaveData(command);
 		break;
 	case 'n':
+		data = getNewImageData(command);
 		break;
 	case 'c':
 		data = getCircleData(command);
@@ -110,8 +126,29 @@ CommandData Parser::Parse(std::string command)
 		data = getPixelData(command);
 		break;
 	default:
-		return CommandData();
+		data.ID = CommandID::Error;
+		break;
 	}
 
 	return data;
+}
+
+bool Parser::execute(const std::string& command, PPM*& image)
+{
+	CommandData data = Parse(command);
+
+	switch (data.ID)
+	{
+	case CommandID::Pixel:      image->drawPixel(data.x, data.y, data.rgb); break;
+	case CommandID::Rectangle:  image->drawRectangle(data.x, data.y, data.width, data.height, data.rgb); break;
+	case CommandID::Circle:     image->drawCircle(data.x, data.y, data.radius, data.rgb); break;
+	case CommandID::Save:       image->finalize(data.filename.c_str()); break;
+	case CommandID::Error:		return false;
+	case CommandID::New:
+		delete image;
+		image = new PPM(data.width, data.height);
+		break;
+	}
+
+	return true;
 }

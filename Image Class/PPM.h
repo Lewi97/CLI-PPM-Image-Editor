@@ -7,12 +7,12 @@ struct RGB {
     int g;
     int b;
 };
-
+// (TODO) fix boundary check
 class PPM
 {
 private:
     int width, height;
-    RGB* colors;
+    RGB* colors = nullptr;
 
     inline size_t getIndex(int x, int y) { return x + width * y; }
     inline bool inBounds(int x, int y);
