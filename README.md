@@ -23,5 +23,5 @@ p 50 50 255 124 62
 
 When commands share the same name, the command that draws has priority:
 
-c 50 50 10 will draw circle
+c 50 50 10 will draw circle  
 co 255 0 0 will set color
