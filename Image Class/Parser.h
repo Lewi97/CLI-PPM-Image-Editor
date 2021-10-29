@@ -11,6 +11,7 @@ enum class CommandID
 	Circle,
 	Rectangle,
 	Pixel,
+	Color,
 	Error
 };
 
@@ -25,12 +26,19 @@ struct CommandData
 class Parser
 {
 private:
+	RGB color = { 0,0,0 };
+
+	// getters
 	CommandData getSaveData(const std::string& command);
 	CommandData getRectangleData(const std::string& command);
 	CommandData getCircleData(const std::string& command);
 	CommandData getPixelData(const std::string& command);
 	CommandData getNewImageData(const std::string& command);
+	CommandData getColorData(const std::string& command);
 	int* getData(const std::string& command, int elements);
+
+	// setters
+	void setColorData(const RGB& rgb);
 public:
 	Parser() {}
 	bool execute(const std::string& command, PPM*& image);

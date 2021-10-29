@@ -12,8 +12,8 @@ PPM::PPM(int width, int height) :
 
 inline bool PPM::inBounds(int x, int y)
 {
-    if (0 < x && x < width)
-        return (0 < y && y < height);
+    if (0 <= x && x <= width)
+        return (0 <= y && y <= height);
     return false;
 }
 

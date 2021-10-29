@@ -1,15 +1,16 @@
 #include "Parser.h"
 
+#include <iostream>
+
 // pixel x y r g b
 CommandData Parser::getPixelData(const std::string& command)
 {
-	int* elements = getData(command, 5);
+	int* elements = getData(command, 2);
 
 	CommandData data;
 	data.ID = CommandID::Pixel;
 	data.x = elements[0];
 	data.y = elements[1];
-	data.rgb = { elements[2], elements[3],elements[4] };
 
 	delete[] elements;
 
@@ -33,14 +34,13 @@ CommandData Parser::getSaveData(const std::string& command)
 // circle x y radius r g b
 CommandData Parser::getCircleData(const std::string& command)
 {
-	int* elements = getData(command, 6);
+	int* elements = getData(command, 3);
 
 	CommandData data;
 	data.ID = CommandID::Circle;
 	data.x = elements[0];
 	data.y = elements[1];
 	data.radius = elements[2];
-	data.rgb = { elements[3],elements[4],elements[5] };
 
 	return data;
 }
@@ -48,7 +48,7 @@ CommandData Parser::getCircleData(const std::string& command)
 // rectangle x y w h r g b
 CommandData Parser::getRectangleData(const std::string& command)
 {
-	int* elements = getData(command, 7);
+	int* elements = getData(command, 4);
 
 	CommandData data;
 	data.ID = CommandID::Rectangle;
@@ -56,7 +56,7 @@ CommandData Parser::getRectangleData(const std::string& command)
 	data.y = elements[1];
 	data.width = elements[2];
 	data.height = elements[3];
-	data.rgb = { elements[4] ,elements[5] ,elements[6] };
+	data.rgb = color;// { elements[4], elements[5], elements[6] };
 
 	delete[] elements;
 
@@ -101,7 +101,26 @@ int* Parser::getData(const std::string& command, int elements)
 
 	return e;
 }
+CommandData Parser::getColorData(const std::string& command)
+{
+	int* elements = getData(command, 3);
+	CommandData data;
 
+	data.ID = CommandID::Color;
+	data.rgb = { elements[0], elements[1],elements[2] };
+
+	delete[] elements;
+
+	return data;
+}
+
+void Parser::setColorData(const RGB& rgb)
+{
+	color = rgb;
+	std::cout << "Color set to " << color.r << ' ' << color.g << ' ' << color.b << std::endl;
+}
+
+// (TODO) distinguish between get and set commands
 CommandData Parser::Parse(std::string command)
 {
 	CommandData data;
@@ -117,7 +136,7 @@ CommandData Parser::Parse(std::string command)
 		data = getNewImageData(command);
 		break;
 	case 'c':
-		data = getCircleData(command);
+		data = command[1] == 'o' ? getColorData(command) : getCircleData(command);
 		break;
 	case 'r':
 		data = getRectangleData(command);
@@ -133,17 +152,19 @@ CommandData Parser::Parse(std::string command)
 	return data;
 }
 
+// (TODO) selected color
 bool Parser::execute(const std::string& command, PPM*& image)
 {
 	CommandData data = Parse(command);
 
 	switch (data.ID)
 	{
-	case CommandID::Pixel:      image->drawPixel(data.x, data.y, data.rgb); break;
+	case CommandID::Pixel:      image->drawPixel(data.x, data.y, color); break;
 	case CommandID::Rectangle:  image->drawRectangle(data.x, data.y, data.width, data.height, data.rgb); break;
-	case CommandID::Circle:     image->drawCircle(data.x, data.y, data.radius, data.rgb); break;
+	case CommandID::Circle:     image->drawCircle(data.x, data.y, data.radius, color); break;
 	case CommandID::Save:       image->finalize(data.filename.c_str()); break;
 	case CommandID::Error:		return false;
+	case CommandID::Color:		setColorData(data.rgb); break; // can be better
 	case CommandID::New:
 		delete image;
 		image = new PPM(data.width, data.height);
