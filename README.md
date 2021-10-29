@@ -1,6 +1,6 @@
 # CLI PPM Image Editor
 
-Ever thought Paint was too easy? No u haven't? Well i got great news, u using this tool u can draw by typing in commands, how will it look like? U won't know till u save it.
+Ever thought Paint was too easy? No u haven't? Well i got great news, using this tool u can draw by typing in commands, how will it look like? U won't know till u save it.
 
 Commands:
 
